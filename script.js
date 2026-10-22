@@ -4,7 +4,7 @@
   // ---------------------------------------------------------
   // API (unchanged)
   // ---------------------------------------------------------
-  const API_BASE = "https://mansik-santulan-score.onrender.com";
+  const API_BASE = "https://mental-health-score-predictor-2-qzbs.onrender.com";
   const REQUEST_TIMEOUT_MS = 90000; // free Render servers can take a while to wake up
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
