@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#17143A" />
+<title>Mental Health Signal — Student Wellness Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <h1 class="title">Mental Health Signal</h1>
+    <p class="tagline">Tell us how your day is built. The model turns it into a score from 0 to 10.</p>
+    <p class="masthead-note">An estimate from your habits, not a diagnosis.</p>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- ================= FORM ================= -->
+  <section class="sheet" aria-labelledby="form-heading">
+    <h2 id="form-heading" class="visually-hidden">Your details</h2>
+
+    <form id="predict-form" novalidate>
+
+      <!-- About you -->
+      <fieldset class="section">
+        <legend>About you</legend>
+        <div class="grid grid-3">
+
+          <div class="field">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" min="10" max="100" step="1" required placeholder="21" inputmode="numeric" />
+            <span class="hint">Between 10 and 100</span>
+            <span class="error-msg" data-for="age"></span>
+          </div>
+
+          <div class="field">
+            <span class="label" id="gender-label">Gender</span>
+            <div class="seg" role="radiogroup" aria-labelledby="gender-label" data-target="gender">
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="Male">Male</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="Female">Female</button>
+            </div>
+            <input type="hidden" id="gender" name="gender" required />
+            <span class="error-msg" data-for="gender"></span>
+          </div>
+
+          <div class="field">
+            <label for="country">Country</label>
+            <input type="text" id="country" name="country" list="country-list" required placeholder="India" autocomplete="off" />
+            <datalist id="country-list">
+              <option value="India"></option>
+              <option value="USA"></option>
+              <option value="Canada"></option>
+              <option value="Australia"></option>
+              <option value="UK"></option>
+              <option value="Germany"></option>
+              <option value="Mexico"></option>
+              <option value="Turkey"></option>
+              <option value="France"></option>
+            </datalist>
+            <span class="hint">Not in the list? Type it in.</span>
+            <span class="error-msg" data-for="country"></span>
+          </div>
+
+          <div class="field field-span">
+            <span class="label" id="academic-label">Academic level</span>
+            <div class="seg" role="radiogroup" aria-labelledby="academic-label" data-target="academic_level">
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="High School">High School</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="Undergraduate">Undergraduate</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="Graduate">Graduate</button>
+            </div>
+            <input type="hidden" id="academic_level" name="academic_level" required />
+            <span class="error-msg" data-for="academic_level"></span>
+          </div>
+
+        </div>
+      </fieldset>
+
+      <!-- Phone use -->
+      <fieldset class="section">
+        <legend>Phone use</legend>
+        <div class="grid grid-2">
+
+          <div class="field">
+            <label for="most_used_platform">Most-used platform</label>
+            <select id="most_used_platform" name="most_used_platform" required>
+              <option value="" disabled selected hidden>Choose one</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Snapchat">Snapchat</option>
+              <option value="Twitter">Twitter</option>
+              <option value="YouTube">YouTube</option>
+              <option value="TikTok">TikTok</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="LINE">LINE</option>
+              <option value="KakaoTalk">KakaoTalk</option>
+              <option value="VKontakte">VKontakte</option>
+              <option value="WhatsApp">WhatsApp</option>
+              <option value="WeChat">WeChat</option>
+            </select>
+            <span class="error-msg" data-for="most_used_platform"></span>
+          </div>
+
+          <div class="field">
+            <label for="daily_unlocks">Phone unlocks per day</label>
+            <input type="number" id="daily_unlocks" name="daily_unlocks" min="0" step="1" required placeholder="60" inputmode="numeric" />
+            <span class="error-msg" data-for="daily_unlocks"></span>
+          </div>
+
+          <div class="field field-span">
+            <span class="label" id="purpose-label">What you mainly use it for</span>
+            <div class="seg" role="radiogroup" aria-labelledby="purpose-label" data-target="purpose_of_use">
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="Networking">Networking</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="Education">Education</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="Entertainment">Entertainment</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="News">News</button>
+            </div>
+            <input type="hidden" id="purpose_of_use" name="purpose_of_use" required />
+            <span class="error-msg" data-for="purpose_of_use"></span>
+          </div>
+
+        </div>
+      </fieldset>
+
+      <!-- Your day -->
+      <fieldset class="section">
+        <legend>Your day</legend>
+        <p class="section-note">Each habit gets its own colour. Watch the rings on the right fill as you go.</p>
+        <div class="grid grid-2">
+
+          <div class="field hour" style="--c: var(--sleep)">
+            <label for="sleep_hours_per_night"><i class="dot" aria-hidden="true"></i>Sleep per night</label>
+            <div class="hour-row">
+              <input type="number" id="sleep_hours_per_night" name="sleep_hours_per_night" min="0" max="24" step="0.1" required placeholder="0" inputmode="decimal" />
+              <span class="unit">hrs</span>
+            </div>
+            <input type="range" class="slider" data-sync="sleep_hours_per_night" min="0" max="12" step="0.5" value="0" aria-label="Sleep per night slider" />
+            <span class="error-msg" data-for="sleep_hours_per_night"></span>
+          </div>
+
+          <div class="field hour" style="--c: var(--study)">
+            <label for="study_hours"><i class="dot" aria-hidden="true"></i>Study per day</label>
+            <div class="hour-row">
+              <input type="number" id="study_hours" name="study_hours" min="0" max="24" step="0.1" required placeholder="0" inputmode="decimal" />
+              <span class="unit">hrs</span>
+            </div>
+            <input type="range" class="slider" data-sync="study_hours" min="0" max="12" step="0.5" value="0" aria-label="Study hours slider" />
+            <span class="error-msg" data-for="study_hours"></span>
+          </div>
+
+          <div class="field hour" style="--c: var(--activity)">
+            <label for="physical_activity_hours"><i class="dot" aria-hidden="true"></i>Physical activity per day</label>
+            <div class="hour-row">
+              <input type="number" id="physical_activity_hours" name="physical_activity_hours" min="0" max="24" step="0.1" required placeholder="0" inputmode="decimal" />
+              <span class="unit">hrs</span>
+            </div>
+            <input type="range" class="slider" data-sync="physical_activity_hours" min="0" max="6" step="0.25" value="0" aria-label="Physical activity slider" />
+            <span class="error-msg" data-for="physical_activity_hours"></span>
+          </div>
+
+          <div class="field hour" style="--c: var(--screen)">
+            <label for="avg_daily_usage_hours"><i class="dot" aria-hidden="true"></i>Screen time per day</label>
+            <div class="hour-row">
+              <input type="number" id="avg_daily_usage_hours" name="avg_daily_usage_hours" min="0" max="24" step="0.1" required placeholder="0" inputmode="decimal" />
+              <span class="unit">hrs</span>
+            </div>
+            <input type="range" class="slider" data-sync="avg_daily_usage_hours" min="0" max="16" step="0.5" value="0" aria-label="Screen time slider" />
+            <span class="error-msg" data-for="avg_daily_usage_hours"></span>
+          </div>
+
+          <div class="field field-span">
+            <span class="label" id="stress-label">How stressed do you feel these days?</span>
+            <div class="seg seg-stress" role="radiogroup" aria-labelledby="stress-label" data-target="stress_level">
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="Low">Low</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="Medium">Medium</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="High">High</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" data-value="Very High">Very High</button>
+            </div>
+            <input type="hidden" id="stress_level" name="stress_level" required />
+            <span class="error-msg" data-for="stress_level"></span>
+          </div>
+
+        </div>
+      </fieldset>
+
+      <div class="form-footer">
+        <p class="form-footnote">Your answers go to the model to produce one score.</p>
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span class="btn-label">Get my score</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- ================= READOUT ================= -->
+  <aside class="readout" id="readout" aria-label="Your score">
+
+    <div class="rings-wrap">
+      <svg class="rings" id="rings" viewBox="0 0 320 320" aria-hidden="true">
+        <g class="ring-group">
+          <circle class="ring-track" cx="160" cy="160" r="146" />
+          <circle class="ring-track" cx="160" cy="160" r="120" />
+          <circle class="ring-track" cx="160" cy="160" r="94" />
+          <circle class="ring-track" cx="160" cy="160" r="68" />
+
+          <circle class="ring-arc" data-source="sleep_hours_per_night" style="--c: var(--sleep)" cx="160" cy="160" r="146" />
+          <circle class="ring-arc" data-source="study_hours" style="--c: var(--study)" cx="160" cy="160" r="120" />
+          <circle class="ring-arc" data-source="physical_activity_hours" style="--c: var(--activity)" cx="160" cy="160" r="94" />
+          <circle class="ring-arc" data-source="avg_daily_usage_hours" style="--c: var(--screen)" cx="160" cy="160" r="68" />
+        </g>
+      </svg>
+      <div class="ring-center">
+        <span class="score-number" id="score-number">–</span>
+        <span class="score-sub" id="score-sub">score out of 10</span>
+      </div>
+    </div>
+
+    <ul class="legend">
+      <li style="--c: var(--sleep)"><i class="dot"></i><span>Sleep</span><b data-readout="sleep_hours_per_night">–</b></li>
+      <li style="--c: var(--study)"><i class="dot"></i><span>Study</span><b data-readout="study_hours">–</b></li>
+      <li style="--c: var(--activity)"><i class="dot"></i><span>Activity</span><b data-readout="physical_activity_hours">–</b></li>
+      <li style="--c: var(--screen)"><i class="dot"></i><span>Screen</span><b data-readout="avg_daily_usage_hours">–</b></li>
+    </ul>
+    <p class="legend-note">Each ring shows hours as a share of a 24-hour day. Rings can overlap, since screen time often happens alongside other things.</p>
+
+    <div class="status" aria-live="polite">
+
+      <div class="state" id="state-idle">
+        <p class="status-title">Your score shows up here</p>
+        <p class="status-copy">Fill in the form, then choose Get my score.</p>
+      </div>
+
+      <div class="state" id="state-loading" hidden>
+        <p class="status-title">Reading your habits…</p>
+        <p class="status-copy" id="loading-copy">Running them through the model.</p>
+      </div>
+
+      <div class="state" id="state-result" hidden>
+        <p class="status-title band-title"><i class="band-dot" aria-hidden="true"></i><span id="score-band">–</span></p>
+        <div class="scale" aria-hidden="true">
+          <div class="scale-bar"><span class="z z-low"></span><span class="z z-mid"></span><span class="z z-high"></span></div>
+          <span class="scale-marker" id="scale-marker"></span>
+          <div class="scale-labels"><span>Strained</span><span>Steady</span><span>Strong</span></div>
+        </div>
+        <p class="status-copy" id="score-context"></p>
+        <button type="button" class="ghost-btn" id="reset-btn">Check another day</button>
+      </div>
+
+      <div class="state" id="state-error" hidden>
+        <p class="status-title error-title" id="error-label">Something went wrong</p>
+        <p class="status-copy" id="error-copy"></p>
+        <button type="button" class="ghost-btn" id="error-retry-btn">Try again</button>
+      </div>
+
+    </div>
+  </aside>
+
+</main>
+
+<footer class="site-footer">
+  <p>For information only, not a clinical assessment. If you're struggling, please talk to someone you trust.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
